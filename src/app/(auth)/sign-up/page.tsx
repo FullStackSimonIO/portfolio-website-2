@@ -28,6 +28,8 @@ const Page = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(AuthCredentialsValidator) });
 
+  const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {};
+
   return (
     <>
       <div className="container relative flex pt-20 flex-col items-center justify-center lg: px-0">
@@ -48,13 +50,14 @@ const Page = () => {
             </Link>
           </div>
           <div className="grid gap-6">
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid gap-2">
                 <div className="grid gap-1 py-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
+                    {...register("email")}
                     className={cn({
-                      "focus-visible:ring-red-500": true,
+                      "focus-visible:ring-red-500": errors.email,
                     })}
                     placeholder="name@example.com"
                   />
@@ -62,8 +65,9 @@ const Page = () => {
                 <div className="grid gap-1 py-2">
                   <Label htmlFor="password">Password</Label>
                   <Input
+                    {...register("password")}
                     className={cn({
-                      "focus-visible:ring-red-500": true,
+                      "focus-visible:ring-red-500": errors.password,
                     })}
                     placeholder="***********"
                   />
