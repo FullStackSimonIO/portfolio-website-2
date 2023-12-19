@@ -7,8 +7,27 @@ import { cn } from "@/src/lib/utils";
 import { Label } from "@radix-ui/react-label";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { z } from "zod";
 
 const Page = () => {
+  const AuthCredentialsValidator = z.object({
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long." }),
+  });
+
+  type TAuthCredentialsValidator = z.infer<typeof AuthCredentialsValidator>;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(AuthCredentialsValidator) });
+
   return (
     <>
       <div className="container relative flex pt-20 flex-col items-center justify-center lg: px-0">
